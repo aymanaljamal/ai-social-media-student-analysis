@@ -1,7 +1,14 @@
+
+
 <div align="center">
 
-<img src="https://storage.googleapis.com/kaggle-datasets-images/11456668/18539766/10fd115def09a08b31f4c6b92af8ff61/dataset-cover.png?t=2026-08-01-21-17-30" alt="AI and Social Media Impact on Student Health and Grades" width="900"/>
+<img src="./reports/figures/dataset-cover.png" alt="AI and Social Media Impact on Student Health and Grades" width="900">
 
+# AI & Social Media Impact on Student Health & Academic Performance
+
+### Data Analysis, Visualization, and Machine Learning Project
+
+</div>
 # AI & Social Media Impact on Student Health & Academic Performance
 
 ### Data Analysis, Visualization, and Machine Learning Project

@@ -11,11 +11,15 @@
 <a href="https://github.com/aymanaljamal/ai-social-media-student-analysis">
 Repository
 </a>
-&nbsp; | &nbsp;
+
+  |  
+
 <a href="https://www.kaggle.com/datasets/debayank2024/ai-and-social-media-impact-student-health-and-grades">
 Dataset
 </a>
-&nbsp; | &nbsp;
+
+  |  
+
 <a href="https://github.com/aymanaljamal/ai-social-media-student-analysis/tree/main/reports/figures">
 Visualizations
 </a>
@@ -30,9 +34,14 @@ Visualizations
 
 This project explores the relationship between **social media usage, AI tool usage, student health, burnout, social isolation, and academic performance**.
 
-The project uses Python and common Data Science libraries to build a complete and reproducible data analysis workflow.
+The project uses Python and common Data Science and Machine Learning libraries to build a complete and reproducible data analysis workflow.
 
-The dataset contains approximately **15,000 student records** and **14 variables** covering:
+The dataset contains:
+
+* **15,000 student records**
+* **14 original variables**
+
+The dataset covers several areas related to student life and academic performance:
 
 * Demographic information
 * Social media usage
@@ -46,13 +55,13 @@ The dataset contains approximately **15,000 student records** and **14 variables
 * Academic performance
 * Academic failure risk
 
-The project is being developed step by step, starting with data exploration and visualization and progressing toward data preprocessing and Machine Learning.
+The project has progressed from initial data exploration and visualization to **data cleaning, preprocessing, feature engineering, Machine Learning, model evaluation, and report generation**.
 
 ---
 
 # 🎯 Project Goals
 
-The main goals are to understand how students' digital behavior and lifestyle factors relate to their health and academic outcomes.
+The main goal is to understand how students' digital behavior, lifestyle, health, and academic characteristics are related.
 
 The analysis focuses on:
 
@@ -67,7 +76,11 @@ The analysis focuses on:
 * Academic performance
 * Academic failure risk
 
-The final Machine Learning objective is to build a model capable of predicting **Academic Failure Risk**.
+The Machine Learning objective is to build a classification model capable of predicting:
+
+```text
+Academic_Failure_Risk
+```
 
 ---
 
@@ -77,46 +90,60 @@ The project follows a structured Data Science workflow:
 
 ```text
 Raw Dataset
-     |
-     v
+      |
+      v
 Data Loading
-     |
-     v
+      |
+      v
 Data Exploration
-     |
-     v
+      |
+      v
 Exploratory Data Analysis
-     |
-     v
+      |
+      v
 Statistical Analysis
-     |
-     v
+      |
+      v
 Data Visualization
-     |
-     v
+      |
+      v
 Correlation Analysis
-     |
-     v
+      |
+      v
 Data Cleaning
-     |
-     v
+      |
+      v
 Data Preprocessing
-     |
-     v
+      |
+      v
 Feature Engineering
-     |
-     v
+      |
+      v
+Train/Test Split
+      |
+      v
 Machine Learning
-     |
-     v
+      |
+      v
 Model Evaluation
+      |
+      v
+Report Generation
+      |
+      v
+Model Saving
+      |
+      v
+PDF Documentation
 ```
+
+The project is designed using separate modules so that each stage can be maintained independently.
 
 ---
 
 # 📊 Dataset
 
-The project uses the following public Kaggle dataset:
+The project uses the public Kaggle dataset:
 
 **AI & Social Media Impact: Student Health & Grades**
 
@@ -136,15 +163,17 @@ The cleaned dataset is generated and stored in:
 data/processed/
 ```
 
-### Dataset Statistics
+The original raw dataset is never overwritten by the cleaning process.
+
+## Dataset Statistics
 
 | Property              |                   Value |
 | --------------------- | ----------------------: |
-| Records               |                  15,000 |
-| Columns               |                      14 |
-| Numerical Variables   |                      10 |
-| Categorical Variables |                       3 |
-| Identifier            |                       1 |
+| Records               |              **15,000** |
+| Original Columns      |                  **14** |
+| Numerical Variables   |                  **10** |
+| Categorical Variables |                   **3** |
+| Identifier            |                   **1** |
 | Target Variable       | `Academic_Failure_Risk` |
 
 ---
@@ -189,25 +218,46 @@ ai-social-media-student-analysis/
 │   └── processed/
 │       └── AI_SocialMedia_Student_Health_Dataset_clean.csv
 │
+├── models/
+│   ├── random_forest_model.pkl
+│   └── preprocessor.pkl
+│
 ├── notebooks/
 │   ├── 01_1_data_exploration.ipynb
 │   ├── 01_2_data_exploration.ipynb
-│   └── 01_3_data_exploration.ipynb
+│   ├── 01_3_data_exploration.ipynb
+│   ├── 02_analysis.ipynb
+│   └── 03_machine_learning.ipynb
 │
 ├── reports/
-│   └── figures/
-│       ├── dataset-cover.png
-│       ├── correlation_heatmap.png
-│       ├── boxplot_*.png
-│       ├── distribution_*.png
-│       └── countplot_*.png
+│   ├── figures/
+│   │   ├── dataset-cover.png
+│   │   ├── correlation_heatmap.png
+│   │   ├── boxplot_*.png
+│   │   ├── distribution_*.png
+│   │   └── countplot_*.png
+│   │
+│   ├── models/
+│   ├── metrics/
+│   ├── matrices/
+│   ├── tables/
+│   │
+│   └── notebooks/
+│       ├── 01_1_data_exploration.pdf
+│       ├── 01_2_data_exploration.pdf
+│       ├── 01_3_data_exploration.pdf
+│       ├── 02_analysis.pdf
+│       └── 03_machine_learning.pdf
 │
 ├── src/
 │   ├── imports.py
 │   ├── data_loader.py
 │   ├── data_cleaning.py
 │   ├── data_analysis.py
-│   └── visualization.py
+│   ├── visualization.py
+│   ├── preprocessing.py
+│   ├── train_model.py
+│   └── evaluate_model.py
 │
 ├── tests/
 │
@@ -227,13 +277,13 @@ ai-social-media-student-analysis/
 
 # 📓 Data Exploration Notebooks
 
-The project currently contains three notebooks for exploring the dataset.
+The project contains notebooks documenting the exploratory data analysis process.
 
 ## `01_1_data_exploration.ipynb`
 
-The first exploration notebook focuses on the initial understanding of the dataset.
+The first notebook focuses on understanding the dataset structure.
 
-It includes areas such as:
+It includes:
 
 * Loading the dataset
 * Inspecting the dataset
@@ -275,15 +325,199 @@ It includes:
 * Categorical count plots
 * Visual exploration of important variables
 
-The notebooks are intended to document the analysis process step by step.
+---
+
+## `02_analysis.ipynb`
+
+The analysis notebook continues the project beyond the initial exploration stage.
+
+It is used to organize the main analysis and prepare the project for Machine Learning.
+
+The notebook includes:
+
+* Cleaned dataset analysis
+* Important variable relationships
+* Target variable analysis
+* Academic failure risk analysis
+* Health-related relationships
+* Digital behavior analysis
+* Burnout analysis
+* Machine Learning preparation
+* Interpretation of important findings
+
+---
+
+## `03_machine_learning.ipynb`
+
+The Machine Learning notebook documents the complete classification stage.
+
+It includes:
+
+* Loading the cleaned dataset
+* Preparing features and target
+* Feature engineering
+* Train/test splitting
+* Data preprocessing
+* Feature encoding
+* Feature scaling
+* Random Forest training
+* Model evaluation
+* Confusion matrix
+* Classification report
+* Model saving
+* Interpretation of results
+
+---
+
+# 📄 Project Reports & PDF Documentation
+
+The project now includes **generated PDF reports** for the main Jupyter notebooks.
+
+Each notebook was converted into a professional PDF report using the project's report utilities.
+
+All generated PDF reports are stored in:
+
+```text
+reports/notebooks/
+```
+
+The reports provide a convenient way to review the project's analysis and Machine Learning results without opening Jupyter Notebook.
+
+---
+
+## 📘 01. Data Exploration Report
+
+### `01_1_data_exploration.pdf`
+
+This report documents the initial exploration of the dataset, including:
+
+* Dataset structure
+* Number of records
+* Number of columns
+* Column names
+* Data types
+* Sample records
+* Numerical variables
+* Categorical variables
+
+[📄 Open 01_1 Data Exploration PDF](./reports/notebooks/01_1_data_exploration.pdf)
+
+---
+
+## 📗 02. Statistical Exploration Report
+
+### `01_2_data_exploration.pdf`
+
+This report contains the statistical exploration stage, including:
+
+* Missing values
+* Duplicate records
+* Unique values
+* Descriptive statistics
+* Numerical analysis
+* Categorical analysis
+* Distribution analysis
+
+[📄 Open 01_2 Data Exploration PDF](./reports/notebooks/01_2_data_exploration.pdf)
+
+---
+
+## 📙 03. Visualization & Correlation Report
+
+### `01_3_data_exploration.pdf`
+
+This report documents the visualization and correlation analysis stage.
+
+It includes:
+
+* Correlation heatmaps
+* Box plots
+* Distribution plots
+* Histograms
+* Count plots
+* Relationship analysis
+
+[📄 Open 01_3 Data Exploration PDF](./reports/notebooks/01_3_data_exploration.pdf)
+
+---
+
+## 📕 04. Main Analysis Report
+
+### `02_analysis.pdf`
+
+This report contains the main analytical stage of the project.
+
+It focuses on:
+
+* Cleaned data analysis
+* Important relationships
+* Academic performance
+* Academic failure risk
+* Digital behavior
+* Health-related variables
+* Burnout
+* Social isolation
+* Preparation for Machine Learning
+
+[📄 Open 02 Analysis PDF](./reports/notebooks/02_analysis.pdf)
+
+---
+
+## 🤖 05. Machine Learning Report
+
+### `03_machine_learning.pdf`
+
+This report documents the Machine Learning pipeline.
+
+It includes:
+
+* Feature engineering
+* Train/test split
+* Preprocessing
+* Random Forest model
+* Model training
+* Model evaluation
+* Classification report
+* Confusion matrix
+* Model performance
+* Saved model information
+
+[📄 Open 03 Machine Learning PDF](./reports/notebooks/03_machine_learning.pdf)
+
+---
+
+# 🖼️ Report Preview
+
+The PDF reports can also be represented using preview images stored inside:
+
+```text
+reports/figures/
+```
+
+For example:
+
+```text
+reports/figures/
+├── report_01_1_preview.png
+├── report_01_2_preview.png
+├── report_01_3_preview.png
+├── report_02_analysis_preview.png
+└── report_03_machine_learning_preview.png
+```
+
+Once these preview images are added to the repository, they can be displayed directly in this README.
+
+Example:
+
+![Data Exploration Report](./reports/figures/report_01_1_preview.png)
+
+[📄 Open Full PDF Report](./reports/notebooks/01_1_data_exploration.pdf)
 
 ---
 
 # 🧹 Data Cleaning
 
-A dedicated data-cleaning pipeline has been added to the project.
-
-The cleaning logic is implemented in:
+A dedicated data-cleaning pipeline has been implemented in:
 
 ```text
 src/data_cleaning.py
@@ -295,9 +529,9 @@ The data loading logic is separated into:
 src/data_loader.py
 ```
 
-This separation keeps the project modular and easier to maintain.
+This modular structure makes the project easier to maintain and extend.
 
-### Current Cleaning Steps
+## Current Cleaning Steps
 
 The cleaning pipeline performs:
 
@@ -323,7 +557,7 @@ The original raw dataset is not overwritten.
 
 # 🔎 Exploratory Data Analysis
 
-The project performs an initial inspection before moving to Machine Learning.
+The project performs an initial inspection of the dataset before Machine Learning.
 
 The analysis includes:
 
@@ -367,7 +601,7 @@ Generated visualizations are stored in:
 reports/figures/
 ```
 
-The project currently includes:
+The project includes:
 
 * Correlation heatmaps
 * Box plots
@@ -381,7 +615,7 @@ The project currently includes:
 
 The correlation heatmap is used to investigate relationships between numerical variables.
 
-![Correlation Heatmap](reports/figures/correlation_heatmap.png)
+![Correlation Heatmap](./reports/figures/correlation_heatmap.png)
 
 The analysis examines relationships involving variables such as:
 
@@ -404,27 +638,45 @@ Box plots are used to examine:
 * Data spread
 * Potential outliers
 
-Examples include:
+### Age
 
-![Age Box Plot](reports/figures/boxplot_Age.png)
+![Age Box Plot](./reports/figures/boxplot_Age.png)
 
-![Daily Social Media Usage](reports/figures/boxplot_Daily_Social_Media_Hours.png)
+### Daily Social Media Usage
 
-![Daily AI Tool Usage](reports/figures/boxplot_Daily_AI_Tool_Usage_Hours.png)
+![Daily Social Media Usage](./reports/figures/boxplot_Daily_Social_Media_Hours.png)
 
-![Sleep Hours](reports/figures/boxplot_Sleep_Hours.png)
+### Daily AI Tool Usage
 
-![Physical Activity Hours](reports/figures/boxplot_Physical_Activity_Hours.png)
+![Daily AI Tool Usage](./reports/figures/boxplot_Daily_AI_Tool_Usage_Hours.png)
 
-![Mental Health Score](reports/figures/boxplot_Mental_Health_Score.png)
+### Sleep Hours
 
-![Physical Health Score](reports/figures/boxplot_Physical_Health_Score.png)
+![Sleep Hours](./reports/figures/boxplot_Sleep_Hours.png)
 
-![Social Isolation Score](reports/figures/boxplot_Social_Isolation_Score.png)
+### Physical Activity Hours
 
-![Academic Performance Score](reports/figures/boxplot_Academic_Performance_Score.png)
+![Physical Activity Hours](./reports/figures/boxplot_Physical_Activity_Hours.png)
 
-![Academic Failure Risk](reports/figures/boxplot_Academic_Failure_Risk.png)
+### Mental Health Score
+
+![Mental Health Score](./reports/figures/boxplot_Mental_Health_Score.png)
+
+### Physical Health Score
+
+![Physical Health Score](./reports/figures/boxplot_Physical_Health_Score.png)
+
+### Social Isolation Score
+
+![Social Isolation Score](./reports/figures/boxplot_Social_Isolation_Score.png)
+
+### Academic Performance Score
+
+![Academic Performance Score](./reports/figures/boxplot_Academic_Performance_Score.png)
+
+### Academic Failure Risk
+
+![Academic Failure Risk](./reports/figures/boxplot_Academic_Failure_Risk.png)
 
 ---
 
@@ -432,11 +684,11 @@ Examples include:
 
 Histograms and distribution plots are used to understand how numerical variables are distributed.
 
-Examples include:
+The analysis includes variables such as:
 
 * Age
-* Social media usage
-* AI tool usage
+* Daily social media usage
+* Daily AI tool usage
 * Sleep
 * Physical activity
 * Mental health
@@ -451,27 +703,25 @@ Examples include:
 
 Categorical variables are analyzed using count plots.
 
-Current categorical analysis includes:
+## Gender
 
-### Gender
+![Gender Distribution](./reports/figures/countplot_Gender.png)
 
-![Gender Distribution](reports/figures/countplot_Gender.png)
+## Education Level
 
-### Education Level
+![Education Level Distribution](./reports/figures/countplot_Education_Level.png)
 
-![Education Level Distribution](reports/figures/countplot_Education_Level.png)
+## Burnout Level
 
-### Burnout Level
+![Burnout Level Distribution](./reports/figures/countplot_Burnout_Level.png)
 
-![Burnout Level Distribution](reports/figures/countplot_Burnout_Level.png)
-
-`Student_ID` is treated as an identifier and is excluded from categorical visualization.
+`Student_ID` is treated as an identifier and should not be interpreted as a meaningful categorical feature.
 
 ---
 
-# 🤖 Machine Learning Objective
+# 🤖 Machine Learning
 
-The primary Machine Learning objective is to predict:
+The project includes a complete Machine Learning pipeline for predicting:
 
 ```text
 Academic_Failure_Risk
@@ -484,43 +734,378 @@ This is a binary classification problem:
 1 → Academic Failure Risk
 ```
 
-Potential input features include:
+The implemented Machine Learning workflow is:
+
+```text
+Cleaned Dataset
+      |
+      v
+Feature Engineering
+      |
+      v
+Train/Test Split
+      |
+      v
+Preprocessing
+      |
+      v
+Feature Encoding
+      |
+      v
+Feature Scaling
+      |
+      v
+Random Forest
+      |
+      v
+Model Evaluation
+      |
+      v
+Model Saving
+```
+
+---
+
+# ⚙️ Machine Learning Preprocessing
+
+The preprocessing pipeline is implemented in:
+
+```text
+src/preprocessing.py
+```
+
+The pipeline performs:
+
+* Feature selection
+* Feature engineering
+* Train/test splitting
+* Numerical preprocessing
+* Categorical encoding
+* Feature scaling
+* Preprocessor fitting
+
+## Feature Engineering
+
+Three additional binary features are generated:
+
+```text
+Uses_AI_Tools
+Is_Social_Media_User
+Is_Physically_Active
+```
+
+These features represent simplified indicators of student behavior.
+
+### `Uses_AI_Tools`
+
+Indicates whether the student uses AI tools.
+
+### `Is_Social_Media_User`
+
+Indicates whether the student uses social media.
+
+### `Is_Physically_Active`
+
+Indicates whether the student participates in physical activity.
+
+---
+
+# ✂️ Train/Test Split
+
+The dataset contains:
+
+```text
+Total records:   15,000
+
+Training data:   12,000
+
+Testing data:     3,000
+```
+
+An **80/20 train-test split** is used.
+
+The preprocessing pipeline is fitted using the training data and then applied to the testing data.
+
+This prevents information from the test dataset from being used during preprocessing.
+
+---
+
+# 🔢 Processed Features
+
+After feature engineering, the Machine Learning dataset contains:
+
+```text
+16 features
+```
+
+## Numerical Features
 
 ```text
 Age
-Gender
-Education_Level
+
 Daily_Social_Media_Hours
+
 Daily_AI_Tool_Usage_Hours
+
 Sleep_Hours
+
 Physical_Activity_Hours
+
 Mental_Health_Score
+
 Physical_Health_Score
+
 Social_Isolation_Score
-Burnout_Level
+
 Academic_Performance_Score
+
+Uses_AI_Tools
+
+Is_Social_Media_User
+
+Is_Physically_Active
 ```
 
-Potential models include:
+## Categorical Features
 
-* Logistic Regression
-* Decision Tree
-* Random Forest
+```text
+Student_ID
+
+Gender
+
+Education_Level
+
+Burnout_Level
+```
+
+> `Student_ID` is an identifier rather than a meaningful behavioral feature. It should ideally be excluded from Machine Learning feature encoding in a future improvement to avoid unnecessarily increasing the feature space.
+
+---
+
+# 🧩 Preprocessing Pipeline
+
+The preprocessing pipeline uses Scikit-learn components such as:
+
+* `StandardScaler`
+* `OneHotEncoder`
+* `ColumnTransformer`
+
+The numerical variables are scaled using:
+
+```text
+StandardScaler
+```
+
+Categorical variables are encoded using:
+
+```text
+OneHotEncoder
+```
+
+The preprocessing operations are combined using:
+
+```text
+ColumnTransformer
+```
+
+The preprocessor is fitted on the training data only.
+
+---
+
+# 🌲 Random Forest Model
+
+The current implemented Machine Learning model is:
+
+```text
+Random Forest Classifier
+```
+
+Configuration:
+
+```text
+n_estimators = 100
+
+random_state = 42
+
+class_weight = balanced
+```
+
+The `class_weight="balanced"` option is used because the target classes are imbalanced.
+
+---
+
+# 🏋️ Model Training
+
+The model training logic is implemented in:
+
+```text
+src/train_model.py
+```
+
+The training process:
+
+1. Receives the prepared dataset.
+2. Splits the data into training and testing sets.
+3. Fits the preprocessing pipeline using training data.
+4. Transforms the training and testing data.
+5. Creates the Random Forest model.
+6. Trains the model.
+7. Saves the trained model.
+8. Returns the model and test data required for evaluation.
 
 ---
 
 # 📏 Model Evaluation
 
-The Machine Learning models will be evaluated using:
+Model evaluation has been separated into a dedicated module:
+
+```text
+src/evaluate_model.py
+```
+
+The evaluation stage currently calculates:
 
 * Accuracy
+* Precision
+* Recall
+* F1-score
+* Classification Report
+* Confusion Matrix
+
+Additional evaluation metrics such as ROC-AUC are planned for a future stage.
+
+---
+
+# 📊 Current Model Results
+
+The Random Forest model was successfully trained and evaluated on the test dataset.
+
+## Performance Summary
+
+| Metric            |     Result |
+| ----------------- | ---------: |
+| Accuracy          | **98.47%** |
+| Test Records      |  **3,000** |
+| Class 0 Recall    |   **1.00** |
+| Class 1 Recall    |   **0.77** |
+| Class 1 Precision |   **0.97** |
+| Class 1 F1-score  |   **0.86** |
+
+---
+
+# 📋 Classification Report
+
+```text
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99      2820
+           1       0.97      0.77      0.86       180
+
+    accuracy                           0.98      3000
+   macro avg       0.98      0.88      0.92      3000
+weighted avg       0.98      0.98      0.98      3000
+```
+
+The model achieved:
+
+```text
+Accuracy = 98.47%
+```
+
+---
+
+# 🔲 Confusion Matrix
+
+The current confusion matrix is:
+
+```text
+[[2816    4]
+ [  42  138]]
+```
+
+The model correctly classified:
+
+* **2,816** class-0 students
+* **138** class-1 students
+
+The model incorrectly classified:
+
+* **4** class-0 students as class 1
+* **42** class-1 students as class 0
+
+The class-1 recall is:
+
+```text
+0.77
+```
+
+This means the model correctly identifies approximately **77% of the students who actually belong to the academic failure risk class**.
+
+---
+
+# ⚠️ Model Performance Interpretation
+
+Although the model achieved a high accuracy of:
+
+```text
+98.47%
+```
+
+accuracy should not be considered the only important metric.
+
+The target dataset is imbalanced:
+
+```text
+Class 0: 2,820 test records
+
+Class 1:   180 test records
+```
+
+Therefore, metrics such as:
+
 * Precision
 * Recall
 * F1-score
 * Confusion Matrix
 * ROC-AUC
 
-Models will be compared to identify the most suitable approach for predicting academic failure risk.
+are important for evaluating the model.
+
+In particular, **class-1 recall** is important because class 1 represents students identified as being at academic failure risk.
+
+The current model has:
+
+```text
+Class 1 Precision = 0.97
+Class 1 Recall    = 0.77
+Class 1 F1-score  = 0.86
+```
+
+This indicates that the model is highly precise when predicting the positive class, but it still misses some positive cases.
+
+---
+
+# 💾 Saved Machine Learning Files
+
+After training, the following files are generated:
+
+```text
+models/
+
+├── random_forest_model.pkl
+
+└── preprocessor.pkl
+```
+
+## `random_forest_model.pkl`
+
+Contains the trained Random Forest classification model.
+
+## `preprocessor.pkl`
+
+Contains the fitted preprocessing pipeline used to transform data before prediction.
+
+These files can later be used to make predictions on new student records.
 
 ---
 
@@ -554,6 +1139,7 @@ Models will be compared to identify the most suitable approach for predicting ac
 * Which variables are the strongest predictors of academic failure?
 * Which classification model performs best?
 * How accurately can academic failure risk be predicted?
+* How can the recall of the academic failure risk class be improved?
 
 ---
 
@@ -598,15 +1184,24 @@ Used for statistical visualizations such as:
 
 Used for the Machine Learning stage, including:
 
-* Data splitting
+* Train/test splitting
 * Encoding
 * Feature scaling
-* Classification
+* Preprocessing pipelines
+* Random Forest classification
 * Model evaluation
+
+## Joblib
+
+Used for saving trained Machine Learning models and preprocessing objects.
 
 ## Jupyter Notebook
 
 Used for interactive and documented exploratory data analysis.
+
+## Playwright
+
+Used to convert generated Jupyter Notebook HTML files into PDF reports.
 
 ---
 
@@ -642,13 +1237,62 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+For PDF report generation, install Playwright:
+
+```bash
+pip install playwright
+```
+
+Then install Chromium:
+
+```bash
+python -m playwright install chromium
+```
+
 ---
 
 # ▶️ Running the Project
 
-## Run Data Cleaning
+## Run the Complete Machine Learning Pipeline
 
-The cleaning pipeline can be executed with:
+The main test script executes the Machine Learning workflow:
+
+```bash
+python test.py
+```
+
+The process includes:
+
+```text
+Load cleaned dataset
+        |
+        v
+Feature engineering
+        |
+        v
+Train/test split
+        |
+        v
+Preprocessing
+        |
+        v
+Random Forest training
+        |
+        v
+Model saving
+        |
+        v
+Model evaluation
+        |
+        v
+Final results
+```
+
+---
+
+# 🧹 Run Data Cleaning
+
+The data-cleaning module can be executed using:
 
 ```bash
 python src/data_cleaning.py
@@ -662,17 +1306,9 @@ data/processed/
 
 ---
 
-## Run the Test Script
+# 📓 Run the Notebooks
 
-```bash
-python test.py
-```
-
----
-
-## Run the Notebooks
-
-Open Jupyter Notebook:
+Start Jupyter Notebook:
 
 ```bash
 jupyter notebook
@@ -684,12 +1320,73 @@ Then navigate to:
 notebooks/
 ```
 
-and open:
+Available notebooks include:
 
 ```text
 01_1_data_exploration.ipynb
 01_2_data_exploration.ipynb
 01_3_data_exploration.ipynb
+02_analysis.ipynb
+03_machine_learning.ipynb
+```
+
+---
+
+# 📄 Generate PDF Reports
+
+The project contains a report utility module responsible for organizing and generating project reports.
+
+The report utilities are located in:
+
+```text
+utils/report_utils.py
+```
+
+The module can:
+
+* Save figures
+* Save Machine Learning models
+* Save evaluation metrics
+* Save confusion matrices
+* Save classification reports
+* Save DataFrames
+* Save feature importance
+* Save JSON reports
+* Save text reports
+* Convert Jupyter notebooks to PDF
+* Convert all notebooks to PDF
+
+The generated PDF reports are stored in:
+
+```text
+reports/notebooks/
+```
+
+The current generated reports are:
+
+```text
+reports/notebooks/
+
+├── 01_1_data_exploration.pdf
+├── 01_2_data_exploration.pdf
+├── 01_3_data_exploration.pdf
+├── 02_analysis.pdf
+└── 03_machine_learning.pdf
+```
+
+The PDF conversion process uses:
+
+```text
+Jupyter Notebook
+       |
+       v
+HTML
+       |
+       v
+Playwright + Chromium
+       |
+       v
+PDF Report
 ```
 
 ---
@@ -768,31 +1465,58 @@ The project contains additional documentation:
 
 ## Data Preprocessing
 
-* [ ] Check outliers
-* [ ] Encode categorical variables
-* [ ] Feature scaling
-* [ ] Feature selection
-* [ ] Feature engineering
-* [ ] Finalize ML-ready dataset
+* [x] Prepare features and target
+* [x] Train/test split
+* [x] Encode categorical variables
+* [x] Feature scaling
+* [x] Feature engineering
+* [x] Build preprocessing pipeline
+* [x] Prevent preprocessing data leakage
+* [ ] Outlier analysis
+* [ ] Feature selection improvement
+* [ ] Final feature optimization
 
 ## Machine Learning
 
-* [ ] Prepare features and target
-* [ ] Train/test split
-* [ ] Build baseline model
+* [x] Prepare features and target
+* [x] Train/test split
+* [x] Build Random Forest model
+* [x] Train model
+* [x] Save trained model
+* [x] Save preprocessing pipeline
+
+## Model Evaluation
+
+* [x] Accuracy
+* [x] Precision
+* [x] Recall
+* [x] F1-score
+* [x] Classification report
+* [x] Confusion matrix
+* [ ] ROC-AUC
+* [ ] ROC curve
+* [ ] Precision-Recall curve
+
+## Reports
+
+* [x] Create report utilities
+* [x] Create reports directory structure
+* [x] Generate PDF report for `01_1_data_exploration.ipynb`
+* [x] Generate PDF report for `01_2_data_exploration.ipynb`
+* [x] Generate PDF report for `01_3_data_exploration.ipynb`
+* [x] Generate PDF report for `02_analysis.ipynb`
+* [x] Generate PDF report for `03_machine_learning.ipynb`
+* [x] Store PDF reports inside `reports/notebooks/`
+* [x] Add PDF reports to project documentation
+
+## Model Comparison
+
 * [ ] Logistic Regression
 * [ ] Decision Tree
-* [ ] Random Forest
-* [ ] Model evaluation
-* [ ] Accuracy
-* [ ] Precision
-* [ ] Recall
-* [ ] F1-score
-* [ ] Confusion Matrix
-* [ ] ROC-AUC
-* [ ] Compare models
-* [ ] Select best model
-* [ ] Save trained model
+* [ ] Random Forest comparison
+* [ ] Model comparison table
+* [ ] Hyperparameter tuning
+* [ ] Final best-model selection
 
 ## Advanced Analysis
 
@@ -803,13 +1527,14 @@ The project contains additional documentation:
 * [ ] Analyze social isolation vs burnout
 * [ ] Analyze burnout vs academic performance
 * [ ] Identify important predictors of academic failure
-* [ ] Build academic failure risk prediction model
+* [ ] Feature importance visualization
+* [ ] Build prediction interface
 
 ---
 
-# 📌 Project Status
+# 📌 Current Project Status
 
-Current stage:
+The project has successfully completed the main stages of the initial Data Science and Machine Learning pipeline.
 
 ```text
 Project Setup
@@ -833,24 +1558,76 @@ Correlation Analysis
 Data Cleaning
       |
       v
-CURRENT STAGE
-      |
-      v
 Data Preprocessing
       |
       v
 Feature Engineering
       |
       v
+Train/Test Split
+      |
+      v
 Machine Learning
       |
       v
 Model Evaluation
+      |
+      v
+PDF Report Generation
+      |
+      v
+CURRENT STAGE
+      |
+      v
+Model Improvement
+      |
+      v
+ROC-AUC Analysis
+      |
+      v
+Feature Importance
+      |
+      v
+Model Comparison
+      |
+      v
+Hyperparameter Tuning
+      |
+      v
+Final Model Selection
 ```
 
-The project has completed the initial **Data Exploration, Visualization, and Data Cleaning** stages.
+The current Random Forest implementation achieved:
 
-The next major stage is **Data Preprocessing and Machine Learning**.
+```text
+Accuracy: 98.47%
+```
+
+on a test set containing:
+
+```text
+3,000 records
+```
+
+The positive-class performance was:
+
+```text
+Precision: 0.97
+Recall:    0.77
+F1-score:  0.86
+```
+
+The project has also generated **five PDF reports** documenting the major analysis and Machine Learning stages.
+
+The next stage of the project is focused on:
+
+* Model improvement
+* Feature analysis
+* ROC-AUC evaluation
+* Feature importance
+* Model comparison
+* Hyperparameter tuning
+* Final model selection
 
 ---
 
@@ -868,6 +1645,26 @@ Project repository:
 
 https://github.com/aymanaljamal/ai-social-media-student-analysis
 
+Visualizations:
+
+https://github.com/aymanaljamal/ai-social-media-student-analysis/tree/main/reports/figures
+
+---
+
+# 📑 PDF Reports
+
+All generated PDF reports are available inside the repository:
+
+| Report              | PDF                                                       |
+| ------------------- | --------------------------------------------------------- |
+| Data Exploration 01 | [Open PDF](./reports/notebooks/01_1_data_exploration.pdf) |
+| Data Exploration 02 | [Open PDF](./reports/notebooks/01_2_data_exploration.pdf) |
+| Data Exploration 03 | [Open PDF](./reports/notebooks/01_3_data_exploration.pdf) |
+| Main Analysis       | [Open PDF](./reports/notebooks/02_analysis.pdf)           |
+| Machine Learning    | [Open PDF](./reports/notebooks/03_machine_learning.pdf)   |
+
+These reports are generated automatically from the Jupyter notebooks and are included in the GitHub repository for easy access and review.
+
 ---
 
 # ⚠️ Important Note
@@ -878,7 +1675,11 @@ Correlation does not necessarily imply causation.
 
 A statistical relationship between two variables should not automatically be interpreted as evidence that one variable directly causes the other.
 
-Machine Learning predictions should also be evaluated carefully and should not be used as the sole basis for real-world decisions.
+The Machine Learning model is also an experimental educational model and should not be used as the sole basis for real-world academic or student-related decisions.
+
+Although the current Random Forest model achieved **98.47% accuracy**, the target variable is imbalanced. Therefore, accuracy alone does not provide a complete picture of model performance.
+
+Recall, precision, F1-score, confusion matrix, and future ROC-AUC analysis should also be considered.
 
 ---
 
@@ -901,3 +1702,5 @@ https://github.com/aymanaljamal
 Repository:
 
 https://github.com/aymanaljamal/ai-social-media-student-analysis
+
+---

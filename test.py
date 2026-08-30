@@ -1,152 +1,175 @@
 # ============================================================
+# TEST MACHINE LEARNING PIPELINE
+# ============================================================
+#
+# This file tests the Machine Learning workflow using the
+# already cleaned dataset.
+#
+# The workflow is:
+#
+# 1. Load the cleaned dataset
+# 2. Create engineered features
+# 3. Separate features and target
+# 4. Split data into training and testing sets
+# 5. Fit the preprocessing pipeline on training data
+# 6. Transform training and testing data
+# 7. Create the Random Forest model
+# 8. Train the model
+# 9. Evaluate the model
+# 10. Display the final results
+#
+# This file does NOT load the raw dataset.
+#
+# Run from the project root:
+#
+#     python test.py
+#
+# ============================================================
+
+
+# ============================================================
 # IMPORTS
 # ============================================================
 
-from src.load_data import load_data
-from src.data_cleaning import (
-    clean_column_names,
-    clean_text_values,
-    remove_duplicates,
-    convert_numeric_columns,
-    handle_missing_values,
-    validate_values,
-    final_data_check,
-    save_cleaned_data,
-)
-from src.data_analysis import run_basic_analysis
-from src.visualization import run_all_visualizations
+# Import the complete training workflow.
+
+from src.train_model import run_training
+
+
+# Import the model evaluation function.
+
+from src.evaluate_model import evaluate_model
 
 
 # ============================================================
-# MAIN PROGRAM
+# MAIN TEST FUNCTION
 # ============================================================
 
 def main():
 
-    # --------------------------------------------------------
-    # 1. Load Dataset
-    # --------------------------------------------------------
+    # ========================================================
+    # 1. START TEST
+    # ========================================================
 
     print("\n")
     print("=" * 80)
-    print("LOADING DATASET")
+    print("MACHINE LEARNING PIPELINE TEST")
     print("=" * 80)
 
-    df = load_data()
 
-
-    # --------------------------------------------------------
-    # 2. Check if Dataset Loaded Successfully
-    # --------------------------------------------------------
-
-    if df is None:
-        print("\nDataset could not be loaded.")
-        return
-
-
-    # --------------------------------------------------------
-    # 3. Display First 5 Rows
-    # --------------------------------------------------------
+    # ========================================================
+    # 2. TRAIN MODEL
+    # ========================================================
 
     print("\n")
     print("=" * 80)
-    print("FIRST 5 ROWS - RAW DATA")
+    print("STARTING MODEL TRAINING")
     print("=" * 80)
 
-    print(df.head())
+
+    # run_training() handles:
+    #
+    # - Loading the cleaned dataset
+    # - Feature engineering
+    # - Separating X and y
+    # - Train/test split
+    # - Preprocessing
+    # - Creating Random Forest
+    # - Training the model
+    # - Saving the model
+    # - Saving the preprocessor
+
+    (
+        model,
+        preprocessor,
+        X_test_processed,
+        y_test
+    ) = run_training()
 
 
-    # --------------------------------------------------------
-    # 4. Data Cleaning
-    # --------------------------------------------------------
+    # ========================================================
+    # 3. EVALUATE MODEL
+    # ========================================================
 
     print("\n")
     print("=" * 80)
-    print("STARTING DATA CLEANING")
+    print("STARTING MODEL EVALUATION")
     print("=" * 80)
 
-    # Clean column names.
-    df = clean_column_names(df)
 
-    # Clean text values.
-    df = clean_text_values(df)
+    # evaluate_model() handles:
+    #
+    # - Making predictions
+    # - Calculating accuracy
+    # - Classification report
+    # - Confusion matrix
 
-    # Remove duplicated rows.
-    df = remove_duplicates(df)
-
-    # Convert numerical columns to numeric data types.
-    df = convert_numeric_columns(df)
-
-    # Handle missing values.
-    df = handle_missing_values(df)
-
-    # Check for invalid numerical values.
-    df = validate_values(df)
-
-    # Perform a final check after cleaning.
-    df = final_data_check(df)
+    accuracy = evaluate_model(
+        model,
+        X_test_processed,
+        y_test
+    )
 
 
-    # --------------------------------------------------------
-    # 5. Save Cleaned Dataset
-    # --------------------------------------------------------
-
-    save_cleaned_data(df)
-
-
-    # --------------------------------------------------------
-    # 6. Display Cleaned Data
-    # --------------------------------------------------------
+    # ========================================================
+    # 4. FINAL RESULTS
+    # ========================================================
 
     print("\n")
     print("=" * 80)
-    print("FIRST 5 ROWS - CLEANED DATA")
+    print("FINAL TEST RESULTS")
     print("=" * 80)
 
-    print(df.head())
+
+    # Display the final accuracy.
+
+    print(
+        f"\nModel Accuracy: {accuracy:.4f}"
+    )
 
 
-    # --------------------------------------------------------
-    # 7. Data Analysis
-    # --------------------------------------------------------
+    print(
+        f"Model Accuracy Percentage: "
+        f"{accuracy * 100:.2f}%"
+    )
+
+
+    # ========================================================
+    # 5. PROJECT FILES
+    # ========================================================
+
+    print("\nGenerated model files:")
+
+    print(
+        "models/random_forest_model.pkl"
+    )
+
+    print(
+        "models/preprocessor.pkl"
+    )
+
+
+    # ========================================================
+    # 6. SUCCESS MESSAGE
+    # ========================================================
 
     print("\n")
     print("=" * 80)
-    print("STARTING DATA ANALYSIS")
+    print("MACHINE LEARNING TEST COMPLETED")
     print("=" * 80)
 
-    run_basic_analysis(df)
 
-
-    # --------------------------------------------------------
-    # 8. Data Visualization
-    # --------------------------------------------------------
-
-    print("\n")
-    print("=" * 80)
-    print("STARTING DATA VISUALIZATION")
-    print("=" * 80)
-
-    run_all_visualizations(df)
-
-
-    # --------------------------------------------------------
-    # 9. Finished
-    # --------------------------------------------------------
-
-    print("\n")
-    print("=" * 80)
-    print("PROJECT FINISHED")
-    print("=" * 80)
-
-    print("\nAll analysis and visualizations have been completed.")
-    print("Cleaned dataset was saved in: data/processed/")
-    print("Charts were saved in: reports/figures/")
+    print(
+        "\nThe model was trained and evaluated successfully."
+    )
 
 
 # ============================================================
-# RUN PROGRAM
+# RUN TEST
 # ============================================================
+
+# This section runs only when test.py is executed directly.
 
 if __name__ == "__main__":
+
     main()

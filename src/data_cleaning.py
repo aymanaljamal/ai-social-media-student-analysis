@@ -7,25 +7,28 @@ the AI & Social Media Student Health dataset.
 
 The cleaning process includes:
 
-1. Clean column names.
-2. Clean text values.
-3. Remove duplicate rows.
-4. Convert numerical columns.
-5. Handle missing values.
-6. Check for invalid values.
-7. Perform a final data check.
-8. Save the cleaned dataset.
+1. Load the raw dataset.
+2. Clean column names.
+3. Clean text values.
+4. Remove duplicate rows.
+5. Convert numerical columns.
+6. Handle missing values.
+7. Check for invalid values.
+8. Perform a final data check.
+9. Save the cleaned dataset.
 
 The code is intentionally written in a beginner-friendly way.
 """
+
 
 # ============================================================
 # IMPORTS
 # ============================================================
 
-from src.imports import pd, np
+import pandas as pd
+import numpy as np
 
-from src.data_loader import (
+from src.load_data import (
     load_data,
     PROCESSED_DATA_PATH
 )
@@ -54,12 +57,13 @@ def clean_column_names(df):
 
     print("\nCleaning column names...")
 
+    # Create an empty list to store the cleaned column names.
     cleaned_columns = []
 
     # Loop through every column name.
     for column in df.columns:
 
-        # Convert the column name to text.
+        # Make sure the column name is treated as text.
         column = str(column)
 
         # Remove spaces from the beginning and end.
@@ -68,9 +72,10 @@ def clean_column_names(df):
         # Replace spaces with underscores.
         column = column.replace(" ", "_")
 
+        # Add the cleaned column name to the list.
         cleaned_columns.append(column)
 
-    # Replace the old column names.
+    # Replace the old column names with the cleaned names.
     df.columns = cleaned_columns
 
     print("Column names cleaned.")
@@ -88,20 +93,23 @@ def clean_text_values(df):
 
     Example:
 
-        " Male " -> "Male"
+        " Male "   -> "Male"
         " Female " -> "Female"
     """
 
     print("\nCleaning text values...")
 
-    # Find columns that contain text data.
+    # Find columns that contain text or category data.
     text_columns = df.select_dtypes(
         include=["object", "category"]
     ).columns
 
-    # Clean every text column.
+    # Loop through every text column.
     for column in text_columns:
 
+        # Remove spaces from text values.
+        #
+        # Missing values are kept unchanged.
         df[column] = df[column].apply(
             lambda value: value.strip()
             if isinstance(value, str)
@@ -145,37 +153,50 @@ def remove_duplicates(df):
 
 def convert_numeric_columns(df):
     """
-    Convert columns that should contain numbers into numeric
-    data types.
+    Convert columns that should contain numbers
+    into numeric data types.
 
-    Invalid values are converted to NaN.
+    If a value cannot be converted to a number,
+    pandas changes it to NaN.
+
+    NaN represents a missing value.
     """
 
     print("\nChecking numerical columns...")
 
+    # List of columns that should contain numerical values.
     numerical_columns = [
+
         "Age",
+
         "Daily_Social_Media_Hours",
+
         "Daily_AI_Tool_Usage_Hours",
+
         "Sleep_Hours",
+
         "Physical_Activity_Hours",
+
         "Mental_Health_Score",
+
         "Physical_Health_Score",
+
         "Academic_Performance_Score",
+
         "Social_Isolation_Score",
+
         "Academic_Failure_Risk",
     ]
 
-    # Process each numerical column.
+    # Loop through every expected numerical column.
     for column in numerical_columns:
 
-        # Only process the column if it exists.
+        # Only process the column if it exists in the dataset.
         if column in df.columns:
 
-            # Convert values to numbers.
+            # Convert the column values to numbers.
             #
-            # If a value cannot be converted,
-            # pandas changes it to NaN.
+            # Invalid values become NaN.
             df[column] = pd.to_numeric(
                 df[column],
                 errors="coerce"
@@ -192,34 +213,39 @@ def convert_numeric_columns(df):
 
 def handle_missing_values(df):
     """
-    Handle missing values.
+    Handle missing values in the dataset.
 
-    Numerical columns:
+    For numerical columns:
         Missing values are replaced with the median.
 
-    Categorical columns:
+    For categorical columns:
         Missing values are replaced with the most common value.
     """
 
     print("\nChecking missing values...")
 
-    # Count missing values before cleaning.
+    # Count all missing values before cleaning.
     missing_before = df.isnull().sum().sum()
 
-    print(f"Missing values before cleaning: {missing_before}")
+    print(
+        f"Missing values before cleaning: "
+        f"{missing_before}"
+    )
 
 
     # --------------------------------------------------------
     # NUMERICAL COLUMNS
     # --------------------------------------------------------
 
+    # Find all numerical columns.
     numerical_columns = df.select_dtypes(
         include=np.number
     ).columns
 
+    # Loop through numerical columns.
     for column in numerical_columns:
 
-        # Check if the column contains missing values.
+        # Check if this column contains missing values.
         if df[column].isnull().any():
 
             # Calculate the median value.
@@ -240,19 +266,21 @@ def handle_missing_values(df):
     # CATEGORICAL COLUMNS
     # --------------------------------------------------------
 
+    # Find all text/categorical columns.
     categorical_columns = df.select_dtypes(
         include=["object", "category"]
     ).columns
 
+    # Loop through categorical columns.
     for column in categorical_columns:
 
-        # Check if the column contains missing values.
+        # Check if this column contains missing values.
         if df[column].isnull().any():
 
             # Find the most common value.
             most_common_value = df[column].mode()[0]
 
-            # Replace missing values.
+            # Replace missing values with the most common value.
             df[column] = df[column].fillna(
                 most_common_value
             )
@@ -263,10 +291,17 @@ def handle_missing_values(df):
             )
 
 
+    # --------------------------------------------------------
+    # CHECK MISSING VALUES AFTER CLEANING
+    # --------------------------------------------------------
+
     # Count missing values after cleaning.
     missing_after = df.isnull().sum().sum()
 
-    print(f"Missing values after cleaning: {missing_after}")
+    print(
+        f"Missing values after cleaning: "
+        f"{missing_after}"
+    )
 
     return df
 
@@ -281,13 +316,15 @@ def validate_values(df):
 
     This function does not delete invalid values.
 
-    It only reports them so we can decide what to do with them.
+    It only reports them so we can decide what to do later.
     """
 
     print("\n" + "=" * 70)
     print("VALIDATING NUMERICAL VALUES")
     print("=" * 70)
 
+    # Define the expected minimum and maximum
+    # values for important numerical columns.
     expected_ranges = {
 
         "Age": (0, 120),
@@ -311,19 +348,21 @@ def validate_values(df):
         "Academic_Failure_Risk": (0, 1),
     }
 
-    # Check every expected numerical column.
+    # Loop through every column and its expected range.
     for column, (minimum, maximum) in expected_ranges.items():
 
         # Skip the column if it does not exist.
         if column not in df.columns:
             continue
 
-        # Find values outside the expected range.
+        # Find values below the minimum
+        # or above the maximum.
         invalid_values = df[
             (df[column] < minimum)
             | (df[column] > maximum)
         ]
 
+        # Display the number of invalid values.
         print(
             f"{column:<35} "
             f"Invalid values: {len(invalid_values)}"
@@ -339,25 +378,34 @@ def validate_values(df):
 def final_data_check(df):
     """
     Display a final summary of the cleaned dataset.
+
+    This allows us to make sure the cleaning process
+    completed successfully.
     """
 
     print("\n" + "=" * 70)
     print("FINAL DATA CHECK")
     print("=" * 70)
 
+    # Display number of rows.
     print(f"Rows: {df.shape[0]}")
+
+    # Display number of columns.
     print(f"Columns: {df.shape[1]}")
 
+    # Display the total number of missing values.
     print(
         f"Missing values: "
         f"{df.isnull().sum().sum()}"
     )
 
+    # Display the total number of duplicate rows.
     print(
         f"Duplicate rows: "
         f"{df.duplicated().sum()}"
     )
 
+    # Display the data types of all columns.
     print("\nData types:")
     print(df.dtypes)
 
@@ -389,14 +437,20 @@ def save_cleaned_data(
         exist_ok=True
     )
 
-    # Save the cleaned dataset.
+    # Save the cleaned DataFrame.
+    #
+    # index=False prevents pandas from creating
+    # an extra index column in the CSV file.
     df.to_csv(
         output_path,
         index=False
     )
 
     print("Cleaned dataset saved successfully.")
-    print(f"Path: {output_path}")
+
+    print(
+        f"Path: {output_path}"
+    )
 
     return output_path
 
@@ -414,12 +468,16 @@ def clean_dataset():
         1. Load raw data.
         2. Clean column names.
         3. Clean text values.
-        4. Remove duplicates.
+        4. Remove duplicate rows.
         5. Convert numerical columns.
         6. Handle missing values.
-        7. Validate values.
-        8. Perform final data check.
-        9. Save cleaned data.
+        7. Validate numerical values.
+        8. Perform a final data check.
+        9. Save the cleaned dataset.
+
+    Returns:
+        pandas.DataFrame:
+        The cleaned dataset.
     """
 
     print("\n" + "=" * 70)
@@ -431,16 +489,26 @@ def clean_dataset():
     # STEP 1: LOAD DATA
     # --------------------------------------------------------
 
+    print("\nSTEP 1: Loading dataset...")
+
     df = load_data()
 
-    # Stop if the dataset could not be loaded.
+    # Stop the process if the dataset could not be loaded.
     if df is None:
+
+        print(
+            "\nData cleaning stopped because "
+            "the dataset could not be loaded."
+        )
+
         return None
 
 
     # --------------------------------------------------------
     # STEP 2: CLEAN COLUMN NAMES
     # --------------------------------------------------------
+
+    print("\nSTEP 2: Cleaning column names...")
 
     df = clean_column_names(df)
 
@@ -449,12 +517,16 @@ def clean_dataset():
     # STEP 3: CLEAN TEXT VALUES
     # --------------------------------------------------------
 
+    print("\nSTEP 3: Cleaning text values...")
+
     df = clean_text_values(df)
 
 
     # --------------------------------------------------------
     # STEP 4: REMOVE DUPLICATES
     # --------------------------------------------------------
+
+    print("\nSTEP 4: Removing duplicate rows...")
 
     df = remove_duplicates(df)
 
@@ -463,12 +535,16 @@ def clean_dataset():
     # STEP 5: CONVERT NUMERICAL COLUMNS
     # --------------------------------------------------------
 
+    print("\nSTEP 5: Converting numerical columns...")
+
     df = convert_numeric_columns(df)
 
 
     # --------------------------------------------------------
     # STEP 6: HANDLE MISSING VALUES
     # --------------------------------------------------------
+
+    print("\nSTEP 6: Handling missing values...")
 
     df = handle_missing_values(df)
 
@@ -477,12 +553,16 @@ def clean_dataset():
     # STEP 7: VALIDATE VALUES
     # --------------------------------------------------------
 
+    print("\nSTEP 7: Validating numerical values...")
+
     df = validate_values(df)
 
 
     # --------------------------------------------------------
-    # STEP 8: FINAL CHECK
+    # STEP 8: FINAL DATA CHECK
     # --------------------------------------------------------
+
+    print("\nSTEP 8: Performing final data check...")
 
     df = final_data_check(df)
 
@@ -491,8 +571,14 @@ def clean_dataset():
     # STEP 9: SAVE CLEANED DATA
     # --------------------------------------------------------
 
+    print("\nSTEP 9: Saving cleaned dataset...")
+
     save_cleaned_data(df)
 
+
+    # --------------------------------------------------------
+    # FINISHED
+    # --------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("DATA CLEANING COMPLETED")

@@ -1,0 +1,22 @@
+{
+    "test_case_id": "HIGH_RISK_001",
+    "input": {
+        "age": 19,
+        "gender": "Male",
+        "education_level": "High School",
+        "social_media_hours": 8.6,
+        "ai_usage_hours": 6.41,
+        "sleep_hours": 5.56,
+        "physical_activity_hours": 1.9,
+        "mental_health_score": 44.87,
+        "physical_health_score": 79.46,
+        "social_isolation_score": 48.21,
+        "burnout_level": "High",
+        "academic_performance_score": 59.11
+    },
+    "expected_result": {
+        "prediction": 1,
+        "risk_level": "High",
+        "probability": 91.0
+    }
+}
